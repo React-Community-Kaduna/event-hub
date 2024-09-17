@@ -5,13 +5,12 @@ import education from "../../../src/assets/images/education.png";
 import entertainment from "../../../src/assets/images/entertainment.png";
 import field from "../../../src/assets/images/field.png";
 import governmental from "../../../src/assets/images/governmental.png";
-import image1 from "../../../src/assets/images/image1.png";
-import image2 from "../../../src/assets/images/image2.png";
-import image3 from "../../../src/assets/images/image3.png";
 import Recommend from "../../components/pages/Recommend";
 import OtherEvents from "../../components/pages/OtherEvents";
 import EventCard from "../../components/cards/EventCard";
 import { FaSliders } from "react-icons/fa6";
+import axios from "axios";
+import { END_POINT } from "../../config/environment";
 
 const categoriesData = [
   { name: "Technology & Innovation", image: tech },
@@ -22,78 +21,63 @@ const categoriesData = [
   { name: "Sports & Fitness", image: field },
 ];
 
-const upcomingData = [
-  {
-    image: image1,
-    location: "Colab",
-    month: "JAN",
-    date: "25 - 26",
-    title: "Introduction to Artificial Intelligence (AI)",
-    time: "8:30 AM - 7:30 PM",
-    ticket: "Free",
-    interested: 14,
-  },
-  {
-    image: image2,
-    location: "Ihifix",
-    month: "FEB",
-    date: "01 - 04",
-    title: "Africa Soft Power Summit 2024",
-    time: "8:30 AM - 7:30 PM",
-    ticket: "Free",
-    interested: 14,
-  },
-  {
-    image: image3,
-    location: "KADAHIVE",
-    month: "FEB",
-    date: "25 - 26",
-    title: "The RollApp Draft Hackathon Powered b...",
-    time: "8:30 AM - 7:30 PM",
-    ticket: "Free",
-    interested: 14,
-  },
-  {
-    image: image1,
-    location: "Colab",
-    month: "JAN",
-    date: "25 - 26",
-    title: "Introduction to Artificial Intelligence (AI)",
-    time: "8:30 AM - 7:30 PM",
-    ticket: "Free",
-    interested: 14,
-  },
-  {
-    image: image2,
-    location: "Ihifix",
-    month: "FEB",
-    date: "01 - 04",
-    title: "Africa Soft Power Summit 2024",
-    time: "8:30 AM - 7:30 PM",
-    ticket: "Free",
-    interested: 14,
-  },
-  {
-    image: image3,
-    location: "KADAHIVE",
-    month: "FEB",
-    date: "25 - 26",
-    title: "The RollApp Draft Hackathon Powered b...",
-    time: "8:30 AM - 7:30 PM",
-    ticket: "Free",
-    interested: 14,
-  },
-];
 export default function Home() {
   const [searchEvent, setSearchEvent] = useState("Google Dev Fest");
   const [placeValue, setPlaceValue] = useState("KadaHive");
   const [timeValue, setTimeValue] = useState("Any Date");
+
+  const [events, setEvents] = useState([]);
+
+  // const fetchEvents = async () => {
+  //   const token =
+  //     "eycJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmM3MTg5NTY0ZDRkZDJiZjg5NWQzNDYiLCJpYXQiOjE3MjYyNzQyMjEsImV4cCI6MTcyODg2NjIyMX0.If99rA1BFIbZkDY1_7bmCHhIgPXfkczNfljuDx3tPho";
+
+  //   try {
+  //     const response = await axios.get(`http://localhost:4000/api/event/all`, {
+  //       headers: {
+  //         "x-auth-token": token,
+  //       },
+  //     });
+  //     setEvents(response.data.events);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  const fetchedEvents = async () => {
+    var myHeaders = new Headers();
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmM3MTg5NTY0ZDRkZDJiZjg5NWQzNDYiLCJpYXQiOjE3MjYyNzQyMjEsImV4cCI6MTcyODg2NjIyMX0.If99rA1BFIbZkDY1_7bmCHhIgPXfkczNfljuDx3tPho";
+
+    myHeaders.append("x-auth-token", token);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    await fetch(`${END_POINT.BASE_URL1}/event/all`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === "success") {
+          setEvents(result.events);
+        } else {
+          console.log("error", result.msg);
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+  console.log("events", events);
 
   useEffect(() => {
     const storedValue = localStorage.getItem("searchEvent");
     if (storedValue) {
       setSearchEvent(storedValue);
     }
+    // fetchEvents();
+    fetchedEvents();
   }, []);
   useEffect(() => {
     const storedValue = localStorage.getItem("placeValue");
@@ -191,13 +175,14 @@ export default function Home() {
             {categoriesData.map((data, index) => {
               const { name, image } = data;
               return (
-                <div key={index} className="cursor-pointer w-[170px] lg:h-[210px] md:h-[210px] h-[140px] px-2">
+                <div
+                  key={index}
+                  className="cursor-pointer w-[170px] lg:h-[210px] md:h-[210px] h-[140px] px-2"
+                >
                   <div className="lg:w-[150px] md:w-[100px] w-[70px] lg:h-[150px] md:h-[100px] h-[70px] m-auto rounded-full">
                     <img src={image} alt="" className="object-cover" />
                   </div>
-                  <p className="text-center font-[500] mt-2 text-sm">
-                    {name}
-                  </p>
+                  <p className="text-center font-[500] mt-2 text-sm">{name}</p>
                 </div>
               );
             })}
@@ -273,14 +258,11 @@ export default function Home() {
                 </select>
               </div>
             </div>
-
           </div>
 
           <div className="mt-[2rem] flex flex-wrap justify-center gap-[2rem] md:gap-[1rem] sm:gap-0">
-            {upcomingData.map((data, index) => {
-              return (
-                <EventCard event={data} key={index} />
-              );
+            {events.map((data, index) => {
+              return <EventCard event={data} key={index} />;
             })}
           </div>
           <button className="bg-[#3557C2] px-[10rem] sm:px-[7rem] py-[0.5rem] rounded-[5px] text-white flex m-auto">
@@ -290,15 +272,13 @@ export default function Home() {
 
         <div className="mt-[5rem] mb-[5rem] lg:px-12 md:px-8 px-4">
           <div className="flex items-center gap-[13rem]">
-          <h2 className="text-[24px] lg:text-[32px] md:text[28px] font-[700] font-montserrat text-[#2D2C3C]">
+            <h2 className="text-[24px] lg:text-[32px] md:text[28px] font-[700] font-montserrat text-[#2D2C3C]">
               Popular Events
             </h2>
           </div>
           <div className="mt-[2rem] flex flex-wrap justify-center gap-[2rem] md:gap-[1rem] sm:gap-0">
-            {upcomingData.map((data, index) => {
-              return (
-                <EventCard event={data} key={index} />
-              );
+            {events.map((data, index) => {
+              return <EventCard event={data} key={index} />;
             })}
           </div>
           <button className="bg-[#3557C2] px-[10rem] sm:px-[7rem] py-[0.5rem] rounded-[5px] text-white flex m-auto">

@@ -4,25 +4,34 @@ import { GoDotFill } from "react-icons/go";
 import { IoStar } from "react-icons/io5";
 import { MdOutlineStarBorderPurple500 } from "react-icons/md";
 import { Link } from "react-router-dom";
-
+// import { useState } from "react";
+import moment from "moment";
 
 const EventCard = ({ event }) => {
   const {
-    image,
+    imageUrl,
     location,
     title,
     date,
-    month,
     interested,
-    time,
+    startTime,
+    endTime,
     ticket,
+    _id,
   } = event;
+
+  const formattedDate = moment(date).format("MMM DD YYYY"); // Replace 'YYYY-MM-DD' with your desired format
+  const newFormattedMonth = formattedDate.slice(0, 4);
+  const newFormattedDate = formattedDate.slice(5);
   return (
-    <Link to={`/eventdescription`} className="mb-[3rem] border border-gray-50 hover:border-gray-100 transition-all duration-300 p-4 rounded-[8px] cursor-pointer">
+    <Link
+      to={`/eventdescription/${_id}`}
+      className="mb-[3rem] border border-gray-50 hover:border-gray-100 transition-all duration-300 p-4 rounded-[8px] cursor-pointer"
+    >
       <div className="relative">
         <div className="w-[25rem] md:w-[22rem] h-[28vh] md:h-[20vh]  rounded-tr-[10px] rounded-tl-[10px]">
           <img
-            src={image}
+            src={imageUrl}
             alt=""
             className="w-full h-full object-cover rounded-tr-[10px] rounded-tl-[10px]"
           />
@@ -34,16 +43,18 @@ const EventCard = ({ event }) => {
       <div className="px-[1rem] md:px-0 mt-[1rem] flex gap-[1rem] md:gap-[0.5rem] text-[#2D2C3C]">
         <div className="">
           <h1 className="text-[#4539B4] font-[600] text-center">
-            {month}
+            {newFormattedMonth}
           </h1>
           <h1 className="text-center text-[#2D2C3C] font-[600]">
-            {date}
+            {newFormattedDate}
           </h1>
         </div>
         <div>
           <h1 className="text-[1.1rem] font-[500]">{location}</h1>
           <p className="text-[0.9rem]">{title}</p>
-          <p className="text-[0.8rem] font-[300]">{time}</p>
+          <p className="text-[0.8rem] font-[300]">
+            {startTime}-{endTime}
+          </p>
           <div className="flex items-center gap-[0.7rem]">
             <span className="flex items-center gap-[0.3rem] text-[#5A5A5A] text-[0.9rem]">
               <IoTicket />

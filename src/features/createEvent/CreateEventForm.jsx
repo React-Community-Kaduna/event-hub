@@ -80,7 +80,7 @@ export default function CreateEventForm({ navigate }) {
         <h2 className="mb-2 lg:ml-[14.3rem] text-[#2D2C3C] font-Montserrat text-xl lg:text-2xl font-semibold">
           date & time
         </h2>
-        <div className=" flex gap-[2%] [@media(min-width:360px)]:gap-4  [@media(min-width:430px)]:gap-8 lg:mx-20 px-0 sm:px-11 text-sm">
+        {/* <div className=" flex gap-[2%] [@media(min-width:360px)]:gap-4  [@media(min-width:430px)]:gap-8 lg:mx-20 px-0 sm:px-11 text-sm">
           <h3 className="sm:flex flex-none inline-flex items-center lg:items-start font-normal lg:font-semibold">
             event types <FaStar color="#D6111A" fontSize="10px" />
           </h3>
@@ -124,7 +124,7 @@ export default function CreateEventForm({ navigate }) {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="relative max-w-6xl sm:pl-12 lg:pl-[8.5rem] flex justify-between lg:gap-8 px-0 text-sm mb-14">
         <h3 className="hidden lg:flex items-center lg:items-start font-normal lg:font-semibold">
@@ -135,12 +135,12 @@ export default function CreateEventForm({ navigate }) {
             <Session key={data.id} id={data.id} deleteSession={index} />
           ))}
         </div>
-        {type !== "single event" && type !== "" && (
+        {/* {type !== "single event" && type !== "" && (
           <HiOutlinePlusCircle
             className="z-0 absolute right-0 top-0 block text-2xl font-normal lg:font-semibold "
             onClick={moreSesions}
           />
-        )}
+        )} */}
       </div>
       <div className="lg:w-full max-w-4xl mb-14">
         <h2 className="mb-2 lg:ml-[14.3rem] text-[#2D2C3C] font-Montserrat text-xl lg:text-2xl font-semibold">

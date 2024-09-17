@@ -6,6 +6,7 @@ import { useView } from "../../hooks/useView";
 export default function CreateEventBanner({ navigate, navigateBack }) {
   const {
     banner: { error },
+    imageUrl: { error1 },
     dispatchFn,
   } = useEvent();
 
@@ -29,11 +30,14 @@ export default function CreateEventBanner({ navigate, navigateBack }) {
           required
           onChange={(e) => {
             const url = URL.createObjectURL(e.target.files[0]);
+            console.log("url", e.target.files[0]);
             dispatchFn({ type: "event/banner", image: url });
+            dispatchFn({ type: "event/imageUrl", imageUrl: e.target.files[0] });
           }}
         />
       </div>
-      {error && <p className="text-red-600 ">A banner is required</p>}
+      {error ||
+        (error1 && <p className="text-red-600 ">A banner is required</p>)}
       <div className="text-[#5A5A5A] font-normal">
         <p>
           Feature Image must be at least 1170 pixels wide by 504 pixels high.

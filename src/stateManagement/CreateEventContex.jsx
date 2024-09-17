@@ -1,7 +1,6 @@
 import { createContext, useReducer } from "react";
 import PropTypes from "prop-types";
 
-
 //initial create event details object
 const initialValue = {
   title: { name: "", error: false },
@@ -20,6 +19,7 @@ const initialValue = {
   location: { name: "", error: false },
   description: { detail: "", error: false },
   banner: { image: "", error: false },
+  imageUrl: { image: "", error: false },
   ticket: {
     EventTicketType: "",
     SellingTicketType: [
@@ -35,16 +35,26 @@ export const CreateEventContext = createContext(initialValue);
 const reducerFn = (state, action) => {
   //dispact event banner/image action
   if (action.type === "event/banner") {
-    return { ...state, banner: { ...state.banner, image: action.image,error: false } };
+    return {
+      ...state,
+      banner: { ...state.banner, image: action.image, error: false },
+    };
+  }
+
+  if (action.type === "event/imageUrl") {
+    return {
+      ...state,
+      imageUrl: { ...state.imageUrl, imageUrl: action.imageUrl, error: false },
+    };
   }
   //dispact event actions for empty input fields
   if (action.type === "event/empty") {
     //dispact event tickttype
-    if(action.type === "event/empty/ticketType"){
-      return {...state,ticket:{...state.ticket,EventTicketType:null}}
+    if (action.type === "event/empty/ticketType") {
+      return { ...state, ticket: { ...state.ticket, EventTicketType: null } };
     }
-     //dispact event type action
-    if(action.field === "eventType"){
+    //dispact event type action
+    if (action.field === "eventType") {
       return {
         ...state,
         event: {
@@ -190,7 +200,7 @@ const reducerFn = (state, action) => {
       },
     };
   }
-    //dispact event session action
+  //dispact event session action
   if (action.type === "session/decrease") {
     const session = state.event.date_Time.filter(
       (date) => date.id !== action.id
@@ -203,7 +213,7 @@ const reducerFn = (state, action) => {
       },
     };
   }
-    //dispact event ticket action
+  //dispact event ticket action
   if (action.type === "ticket/increase") {
     return {
       ...state,
@@ -220,7 +230,7 @@ const reducerFn = (state, action) => {
       },
     };
   }
-    //dispact event ticket action
+  //dispact event ticket action
   if (action.type === "ticket/decrease") {
     const tickets = state.ticket.SellingTicketType.filter(
       (date) => date.id !== action.id
@@ -245,6 +255,6 @@ export default function CreateEventContextProvider({ children }) {
   );
 }
 
-CreateEventContextProvider.propTypes={
-  children:PropTypes.element
-}
+CreateEventContextProvider.propTypes = {
+  children: PropTypes.element,
+};

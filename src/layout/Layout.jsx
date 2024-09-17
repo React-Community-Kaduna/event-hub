@@ -1,12 +1,12 @@
-import NavBar from '../layout/NavBar';
-import Footer from '../layout/Footer';
-import { Outlet } from 'react-router-dom';
+import NavBar from "../layout/NavBar";
+import Footer from "../layout/Footer";
+import { Outlet } from "react-router-dom";
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ isLoggedIn }) => {
   return (
-      <div className='w-full flex flex-col '>
-      <NavBar />
-      <main className='main'>
+    <div className="w-full flex flex-col ">
+      <NavBar isLoggedIn={isLoggedIn} />
+      <main className="main">
         <Outlet />
       </main>
       <Footer />

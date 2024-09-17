@@ -4,19 +4,82 @@ import { IoTicket } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import PropTypes from "prop-types";
 import { useView } from "../../hooks/useView";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { END_POINT } from "../../config/environment";
 
 export default function Review({ eventDetails }) {
   //Event details
   const {
     title: { name: Title },
     banner: { image },
+    imageUrl: { imageUrl },
     session,
     description: { detail },
     location: { name: place },
     EventTicketType,
     SellingTicketType,
+    category,
   } = eventDetails;
+  const [cookies] = useCookies(["userCookie"]);
 
+  const handleSubmitEvent = async () => {
+    console.log(session[0].startTime);
+    // const token = localStorage.getItem("token");
+    const token = cookies?.userCookie;
+    const formData = new FormData();
+
+    var body = {
+      title: eventDetails.title.name,
+      imageUrl: eventDetails.imageUrl,
+      category: eventDetails.category.category,
+      location: eventDetails.location.name,
+      date: session[0].startDate.date,
+      startTime: session[0].startTime.time,
+      endTime: session[0].endTime.time,
+      description: eventDetails.description.detail,
+    };
+    formData.append("title", "bsdsddsody.tifdftle");
+    formData.append("image", body.imageUrl.imageUrl);
+    formData.append("category", body.category);
+    formData.append("location", body.location);
+    formData.append("date", body.date);
+    formData.append("stateTime", body.startTime);
+    formData.append("endTime", body.endTime);
+    formData.append("description", body.description);
+
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    console.log("image", body.imageUrl.imageUrl);
+    if (token) {
+      // Verify token on the backend
+      var myHeaders = new Headers();
+      myHeaders.append("x-auth-token", token);
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        body: formData,
+      };
+      await fetch(`${END_POINT.BASE_URL1}/event/create-event`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          if (result.success === true) {
+            console.log("event success", result.data);
+          } else {
+            console.log("error", result.message);
+          }
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+  };
+
+  // const response = await axios.post(`${END_POINT.BASE_URL1}/events/create-event`)
   //effect to makes component view start from the top of the page
   useView();
 
@@ -114,6 +177,9 @@ export default function Review({ eventDetails }) {
           <h3 className="font-medium text-xl capitalize">Event Description</h3>
           <p className="text-[#5A5A5A] font-normal text-sm">{detail}</p>
         </div>
+        <button onClick={handleSubmitEvent} className="btn">
+          Create
+        </button>
       </div>
     </section>
   );
