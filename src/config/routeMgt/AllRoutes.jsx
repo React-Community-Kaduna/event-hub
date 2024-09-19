@@ -112,10 +112,7 @@ const AllRoutes = () => {
         headers: myHeaders,
         redirect: "follow",
       };
-      await fetch(
-        `${END_POINT.BASE_URL1}/users/isAuthenticated`,
-        requestOptions
-      )
+      await fetch(`${END_POINT.BASE_URL}/users/isAuthenticated`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.message === "success") {

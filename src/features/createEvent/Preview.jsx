@@ -63,7 +63,7 @@ export default function Review({ eventDetails }) {
         redirect: "follow",
         body: formData,
       };
-      await fetch(`${END_POINT.BASE_URL1}/event/create-event`, requestOptions)
+      await fetch(`${END_POINT.BASE_URL}/event/create-event`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           console.log(result);
@@ -79,7 +79,7 @@ export default function Review({ eventDetails }) {
     }
   };
 
-  // const response = await axios.post(`${END_POINT.BASE_URL1}/events/create-event`)
+  // const response = await axios.post(`${END_POINT.BASE_URL}/events/create-event`)
   //effect to makes component view start from the top of the page
   useView();
 

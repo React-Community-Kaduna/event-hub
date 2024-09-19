@@ -9,9 +9,7 @@ import Recommend from "../../components/pages/Recommend";
 import OtherEvents from "../../components/pages/OtherEvents";
 import EventCard from "../../components/cards/EventCard";
 import { FaSliders } from "react-icons/fa6";
-import axios from "axios";
 import { END_POINT } from "../../config/environment";
-
 const categoriesData = [
   { name: "Technology & Innovation", image: tech },
   { name: "Entertainment", image: entertainment },
@@ -25,6 +23,7 @@ export default function Home() {
   const [searchEvent, setSearchEvent] = useState("Google Dev Fest");
   const [placeValue, setPlaceValue] = useState("KadaHive");
   const [timeValue, setTimeValue] = useState("Any Date");
+  console.log(import.meta.env.VITE_BASE_URL);
 
   const [events, setEvents] = useState([]);
 
@@ -45,18 +44,11 @@ export default function Home() {
   // };
 
   const fetchedEvents = async () => {
-    var myHeaders = new Headers();
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmM3MTg5NTY0ZDRkZDJiZjg5NWQzNDYiLCJpYXQiOjE3MjYyNzQyMjEsImV4cCI6MTcyODg2NjIyMX0.If99rA1BFIbZkDY1_7bmCHhIgPXfkczNfljuDx3tPho";
-
-    myHeaders.append("x-auth-token", token);
-
     var requestOptions = {
       method: "GET",
-      headers: myHeaders,
       redirect: "follow",
     };
-    await fetch(`${END_POINT.BASE_URL1}/event/all`, requestOptions)
+    await fetch(`${END_POINT.BASE_URL}/event/all`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {

@@ -43,7 +43,7 @@ const LogIn = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       await axios
-        .post(`${END_POINT.BASE_URL1}/users/login`, formData)
+        .post(`${END_POINT.BASE_URL}/users/login`, formData)
         .then((response) => {
           // Handle successful response
           console.log(response.data.data.user);

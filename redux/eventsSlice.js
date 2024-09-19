@@ -20,7 +20,7 @@ export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
     headers: myHeaders,
     redirect: "follow",
   };
-  await fetch(`${END_POINT.BASE_URL1}/event/all`, requestOptions)
+  await fetch(`${END_POINT.BASE_URL}/event/all`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       console.log("redux", result);

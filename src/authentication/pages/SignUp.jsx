@@ -57,7 +57,7 @@ const SignUp = () => {
     if (Object.keys(validationErrors).length === 0) {
       console.log("form data", formData);
       await axios
-        .post(`${END_POINT.BASE_URL1}/users/signup`, formData)
+        .post(`${END_POINT.BASE_URL}/users/signup`, formData)
         .then((response) => {
           // Handle successful response
           alert(response.data.message);

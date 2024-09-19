@@ -37,7 +37,7 @@ export default function SearchResults() {
 
   const searchQuery = async () => {
     await axios
-      .get(`${END_POINT.BASE_URL1}/event/search?text=${query}`)
+      .get(`${END_POINT.BASE_URL}/event/search?text=${query}`)
       .then((response) => {
         // Handle successful response
         setSearchResults(response.data.events);

@@ -45,7 +45,7 @@ export default function EventsDesc() {
   const fetchEvent = async () => {
     try {
       const response = await axios.get(
-        `${END_POINT.BASE_URL1}/event/get-event/${eventId}`
+        `${END_POINT.BASE_URL}/event/get-event/${eventId}`
       );
       setEvent(response.data.data);
       console.log(response.data);
@@ -69,7 +69,7 @@ export default function EventsDesc() {
           redirect: "follow",
         };
         await fetch(
-          `${END_POINT.BASE_URL1}/event/${eventId}/register`,
+          `${END_POINT.BASE_URL}/event/${eventId}/register`,
           requestOptions
         )
           .then((response) => response.json())
