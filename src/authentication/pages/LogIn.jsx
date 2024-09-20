@@ -21,6 +21,7 @@ const LogIn = () => {
     password: "",
   });
   const handleSubmit = async (e) => {
+    alert("s");
     e.preventDefault();
 
     const validationErrors = {};
@@ -56,6 +57,7 @@ const LogIn = () => {
               path: "/",
               maxAge: 28800,
             });
+            alert("Login Successfull");
             navigate("/profile");
           }
         })
