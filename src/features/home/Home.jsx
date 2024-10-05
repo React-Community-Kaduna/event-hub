@@ -11,6 +11,11 @@ import Recommend from "../../components/pages/Recommend";
 import OtherEvents from "../../components/pages/OtherEvents";
 import EventCard from "../../components/cards/EventCard";
 import { FaSliders } from "react-icons/fa6";
+import {
+  allEvents,
+  porpularEvents,
+} from "../../services/events/events-context";
+import { useDispatch, useSelector } from "react-redux";
 
 const categoriesData = [
   { name: "Technology & Innovation", image: tech },
@@ -87,6 +92,36 @@ export default function Home() {
   const [searchEvent, setSearchEvent] = useState("Google Dev Fest");
   const [placeValue, setPlaceValue] = useState("KadaHive");
   const [timeValue, setTimeValue] = useState("Any Date");
+  const dispatch = useDispatch();
+  const event = useSelector((state) => state.event.allEvents);
+  const porpularEvent = useSelector((state) => state.event.porpularEvents);
+  console.log(event, "all");
+
+  const status = useSelector((state) => state.event.status);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(porpularEvents())
+        .then((response) => {
+          // Handle successful login (e.g., redirect to dashboard)
+          console.log("porpular events:", response);
+        })
+        .catch((error) => {
+          // Handle login errors (e.g., display error message)
+          console.error("Login error:", error);
+        });
+
+      dispatch(allEvents())
+        .then((response) => {
+          // Handle successful login (e.g., redirect to dashboard)
+          console.log("all events:", response);
+        })
+        .catch((error) => {
+          // Handle login errors (e.g., display error message)
+          console.error("Login error:", error);
+        });
+    }
+  }, [status, dispatch]);
 
   useEffect(() => {
     const storedValue = localStorage.getItem("searchEvent");
@@ -316,7 +351,7 @@ export default function Home() {
           </div>
 
           <div className="mt-[2rem] flex flex-wrap justify-center gap-[2rem] md:gap-[1rem] sm:gap-0">
-            {upcomingData.map((data, index) => {
+            {event?.map((data, index) => {
               return <EventCard event={data} key={index} />;
             })}
           </div>
@@ -332,7 +367,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="mt-[2rem] flex flex-wrap justify-center gap-[2rem] md:gap-[1rem] sm:gap-0">
-            {upcomingData.map((data, index) => {
+            {porpularEvent?.map((data, index) => {
               return <EventCard event={data} key={index} />;
             })}
           </div>
@@ -342,7 +377,7 @@ export default function Home() {
         </div>
 
         <Recommend />
-        <OtherEvents />
+        {/* <OtherEvents /> */}
       </div>
     </div>
   );

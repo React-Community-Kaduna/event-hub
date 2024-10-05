@@ -5,22 +5,96 @@ import { CiLocationOn } from "react-icons/ci";
 import PropTypes from "prop-types";
 import { useView } from "../../hooks/useView";
 
-
 export default function Review({ eventDetails }) {
   //Event details
   const {
     title: { name: Title },
     banner: { image },
+    imageUrl: { imageUrl },
     session,
     description: { detail },
     location: { name: place },
     EventTicketType,
     SellingTicketType,
+    orgContact: { name: Contact },
+    orgEmail: { Email },
+    orgName: { name: Name },
   } = eventDetails;
 
   //effect to makes component view start from the top of the page
   useView();
 
+  const handleSubmit = async () => {
+    console.log(eventDetails);
+    const formData = new FormData();
+
+    var body = {
+      title: eventDetails.title.name,
+      orgName: eventDetails.orgName.name,
+      orgEmail: eventDetails.orgEmail.Email,
+      imageUrl: eventDetails.imageUrl,
+      category: eventDetails.category.category,
+      location: eventDetails.location.name,
+      date: session[0].startDate.date,
+      startTime: session[0].startTime.time,
+      endTime: session[0].endTime.time,
+      description: eventDetails.description.detail,
+      organizer: [
+        {
+          name: eventDetails.orgName.name,
+          email: eventDetails.orgEmail.Email,
+        },
+      ],
+    };
+
+    // const organizer = [{ name: body.orgName, email: body.orgEmail }];
+
+    formData.append("title", body.title);
+    formData.append("image", body.imageUrl.imageUrl);
+    formData.append("category", body.category);
+    formData.append("location", body.location);
+    formData.append("date", body.date);
+    formData.append("startTime", body.startTime);
+    formData.append("endTime", body.endTime);
+    formData.append("description", body.description);
+    formData.append("organizer", JSON.stringify(body.organizer));
+    console.log("body", body);
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    var token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmM3MTg5NTY0ZDRkZDJiZjg5NWQzNDYiLCJpYXQiOjE3MjgwNDA3MDksImV4cCI6MTczMDYzMjcwOX0.hKQ_dip2YmatYK8lyA6sYPy6URzbSgsoZgL5fYXNswQ";
+
+    if (token) {
+      // Verify token on the backend
+      var myHeaders = new Headers();
+      myHeaders.append("x-auth-token", token);
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        body: formData,
+      };
+      await fetch(
+        `http://localhost:4000/api/event/create-event`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          if (result.success === true) {
+            console.log("event success", result.data);
+          } else {
+            console.log("error", result.message);
+          }
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+  };
   return (
     <>
       <section className="capitalize w-full lg:px-16 pt-6 mx-auto max-w-4xl text-[#2D2C3C]">
@@ -112,9 +186,14 @@ export default function Review({ eventDetails }) {
             </div>
           </div>
           <div className="mt-8 grid gap-3">
-            <h3 className="font-medium text-xl capitalize">Event Description</h3>
+            <h3 className="font-medium text-xl capitalize">
+              Event Description
+            </h3>
             <p className="text-[#5A5A5A] font-normal text-sm">{detail}</p>
           </div>
+        </div>
+        <div className="btn btn-primary" onClick={handleSubmit}>
+          Create
         </div>
       </section>
     </>

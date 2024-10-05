@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { appRoutes } from "../../config/routeMgt/RoutePaths";
 import AuthenticationDetails from "../../components/button/AuthenticationDetails";
 import AuthenticationForm from "../../components/button/AuthenticationForm";
@@ -6,22 +6,24 @@ import { useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
 import { IoEyeOffSharp, IoEyeSharp } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { END_POINT } from "../../config/environment";
 
 const LogIn = () => {
+  const [cookies, setCookie] = useCookies(["userCookie"]);
+
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(true);
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = {};
-    if (!formData.name.trim()) {
-      validationErrors.name = "name is required";
-    }
 
     if (!formData.email.trim()) {
       validationErrors.email = "Email is required!";
@@ -39,9 +41,56 @@ const LogIn = () => {
 
     setErrors(validationErrors);
 
-    // if (Object.keys(validationErrors).length === 0) {
-    //   alert("Form Submitted Successfuly")
-    // }
+    if (Object.keys(validationErrors).length === 0) {
+      // dispatch(userSignIn(formData))
+      //   .then((response) => {
+      //     // Handle successful login (e.g., redirect to dashboard)
+      //     console.log("Login successful:", response);
+      //     alert(response.payload.message);
+      //     navigate("/profile");
+      //   })
+      //   .catch((error) => {
+      //     // Handle login errors (e.g., display error message)
+      //     console.error("Login error:", error);
+      //   });
+
+      // // alert("Form Submitted Successfuly");
+      await axios
+        .post(`${END_POINT.BASE_URL}/users/login`, formData)
+        .then((response) => {
+          // Handle successful response
+          console.log(response.data.data.user);
+          if (response.status === 200) {
+            localStorage.setItem(
+              "user",
+              JSON.stringify(response.data.data.user)
+            );
+            setCookie("userCookie", JSON.stringify(response.data.token), {
+              path: "/",
+              maxAge: 28800,
+            });
+
+            alert("Login Successfull");
+            navigate("/profile");
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            // The request was made but the server responded with an error
+            console.error(
+              "Error message from backend:",
+              error.response.data.message
+            );
+            alert(error.response.data.message);
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error("No response received:", error.request);
+          } else {
+            // Something happened in setting up the request that failed
+            console.error("Error:", error.message);
+          }
+        });
+    }
   };
 
   const handleChange = (e) => {

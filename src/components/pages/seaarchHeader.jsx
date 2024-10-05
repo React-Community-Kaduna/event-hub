@@ -7,7 +7,11 @@ export default function SeaarchHeader() {
   return (
     <div className="relative">
       <div className="w-[100vw] h-[300px] md:h-[300px] relative">
-        <img src={coverimage} alt="background image" className="w-full h-full object-cover" />
+        <img
+          src={coverimage}
+          alt="background image"
+          className="w-full h-full object-cover"
+        />
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[rgba(53,87,194,0.9)] to-[rgba(53,87,194,0.9)] via-[rgba(45,44,60,0.9)20%]"></div>
       </div>
       <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 grid gap-5">

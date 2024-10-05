@@ -18,6 +18,8 @@ const initialValue = {
   location: { name: "", error: false },
   description: { detail: "", error: false },
   banner: { image: "", error: false },
+  imageUrl: { image: "", error: false },
+
   ticket: {
     EventTicketType: "",
     SellingTicketType: [
@@ -42,17 +44,25 @@ const reducerFn = (state, action) => {
       ...state,
       organizationDetails: {
         ...state.organizationDetails,
-        orgName: { ...state.organizationDetails.orgName, name: action.value, error:false },
+        orgName: {
+          ...state.organizationDetails.orgName,
+          name: action.value,
+          error: false,
+        },
       },
     };
   }
-   //dispact event for event organizatier email action
-   if (action.type === "event/orgEmail") {
+  //dispact event for event organizatier email action
+  if (action.type === "event/orgEmail") {
     return {
       ...state,
       organizationDetails: {
         ...state.organizationDetails,
-        orgEmail: { ...state.organizationDetails.orgEmail, Email: action.value,error:false },
+        orgEmail: {
+          ...state.organizationDetails.orgEmail,
+          Email: action.value,
+          error: false,
+        },
       },
     };
   }
@@ -63,7 +73,11 @@ const reducerFn = (state, action) => {
       ...state,
       organizationDetails: {
         ...state.organizationDetails,
-        orgContact: { ...state.organizationDetails.orgContact, contact: action.value,error:false },
+        orgContact: {
+          ...state.organizationDetails.orgContact,
+          contact: action.value,
+          error: false,
+        },
       },
     };
   }
@@ -75,6 +89,13 @@ const reducerFn = (state, action) => {
       banner: { ...state.banner, image: action.image, error: false },
     };
   }
+
+  if (action.type === "event/imageUrl") {
+    return {
+      ...state,
+      imageUrl: { ...state.imageUrl, imageUrl: action.imageUrl, error: false },
+    };
+  }
   //dispact event actions for empty input fields
   if (action.type === "event/empty") {
     //dispact event ticketType
@@ -83,27 +104,27 @@ const reducerFn = (state, action) => {
     }
 
     //dispact event for empty event organizer mail error
-   if (action.field === "orgEmail/empty") {
-    return {
-      ...state,
-      organizationDetails: {
-        ...state.organizationDetails,
-        orgEmail: { ...state.organizationDetails.orgEmail, error: true },
-      },
-    };
-  }
+    if (action.field === "orgEmail/empty") {
+      return {
+        ...state,
+        organizationDetails: {
+          ...state.organizationDetails,
+          orgEmail: { ...state.organizationDetails.orgEmail, error: true },
+        },
+      };
+    }
 
     //dispact event for empty event organizer name error
-   if (action.field === "orgName/empty") {
-    return {
-      ...state,
-      organizationDetails: {
-        ...state.organizationDetails,
-        orgName: { ...state.organizationDetails.orgName, error: true },
-      },
-    };
-  }    
-  
+    if (action.field === "orgName/empty") {
+      return {
+        ...state,
+        organizationDetails: {
+          ...state.organizationDetails,
+          orgName: { ...state.organizationDetails.orgName, error: true },
+        },
+      };
+    }
+
     //dispact event for empty event organizer contact error
     if (action.field === "orgContact/empty") {
       return {
@@ -113,7 +134,7 @@ const reducerFn = (state, action) => {
           orgContact: { ...state.organizationDetails.orgContact, error: true },
         },
       };
-    }  
+    }
 
     //dispact event date & time actions
     if (
