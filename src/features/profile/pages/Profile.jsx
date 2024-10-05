@@ -3,7 +3,6 @@ import profileImage from "../../../assets/img.png";
 import About from "../components/About";
 import Bookings from "../components/Bookings";
 import Settings from "../components/Settings";
-import event1 from "../../../assets/event.png";
 import PropTypes from "prop-types";
 import { END_POINT } from "../../../config/environment";
 import { useCookies } from "react-cookie";
@@ -67,11 +66,11 @@ import { useCookies } from "react-cookie";
 // };
 const Profile = ({ activePath }) => {
   const [cookies] = useCookies(["userCookie"]);
-  const [_, setCookie] = useCookies(["userEventsCookie"]);
+  // const [_, setCookie] = useCookies(["userEventsCookie"]);
 
   const user = JSON.parse(localStorage.getItem("user")) || [];
   const token = cookies?.userCookie;
-  const userEvents = _?.userEventsCookie;
+  const [events, setEvents] = useState([]);
 
   const getRegisteredEvents = async () => {
     // const token = localStorage.getItem("token");
@@ -88,10 +87,7 @@ const Profile = ({ activePath }) => {
     await fetch(`${END_POINT.BASE_URL}/users/events`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setCookie("userEventsCookie", JSON.stringify(result.events), {
-          path: "/",
-          maxAge: 28800,
-        });
+        setEvents(result.events);
       })
       .catch((error) => {
         console.log("error", error.message);
@@ -143,21 +139,17 @@ const Profile = ({ activePath }) => {
   };
 
   useEffect(() => {
-    {
-      userEvents
-        ? console.log("user events available", userEvents)
-        : getRegisteredEvents();
-    }
-  }, [userEvents]);
+    getRegisteredEvents();
+  }, []);
 
   return (
     <main className="lg:px-0 md:px-0 px-2">
       <div className="w-full flex py-10 px-4 gap-4">
         <div className="profileImage w-[350px] rounded-[18px] overflow-hidden shadow-md h-[250px] bg-gray-200 flex items-center justify-center">
-          {profileImage ? (
+          {user?.avatar ? (
             <img
               className="w-full h-full object-cover"
-              src={profileImage}
+              src={user.avatar}
               alt="Profile Image"
             />
           ) : (
@@ -231,7 +223,7 @@ const Profile = ({ activePath }) => {
 
         <div className="headingsDetails">
           {active == "about me" && <About about={user.about} />}
-          {active == "my bookings" && <Bookings bookings={userEvents} />}
+          {active == "my bookings" && <Bookings bookings={events} />}
           {active == "my events" && (
             <p className="text-gray-700 leading-[1.5]">
               {user.events ?? "No event created"}

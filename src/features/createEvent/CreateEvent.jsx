@@ -72,9 +72,6 @@ export default function CreateEvent() {
           )}
         </div>
       </section>
-      <div className="mt-[1rem] md:px-0">
-        <OtherEvents />
-      </div>
     </>
   );
 }

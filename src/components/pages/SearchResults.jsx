@@ -21,7 +21,7 @@ export default function SearchResults() {
   const [dateFilter, setDateFilter] = useState("");
   console.log("ents", events);
 
-  const filteredEvents = events.filter(
+  const filteredEvents = events?.filter(
     (event) =>
       event.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (!dateFilter || event.date === dateFilter)
@@ -96,10 +96,6 @@ export default function SearchResults() {
 
         <div className="px-[4rem] md:px-0">
           <Recommend />
-        </div>
-
-        <div className="px-[4rem] md:px-[1rem]">
-          <OtherEvents />
         </div>
       </div>
     </div>

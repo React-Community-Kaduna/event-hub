@@ -4,6 +4,8 @@ import { IoTicket } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import PropTypes from "prop-types";
 import { useView } from "../../hooks/useView";
+import { AppButton } from "../../components/button/AppButton";
+import { END_POINT } from "../../config/environment";
 
 export default function Review({ eventDetails }) {
   //Event details
@@ -43,6 +45,7 @@ export default function Review({ eventDetails }) {
         {
           name: eventDetails.orgName.name,
           email: eventDetails.orgEmail.Email,
+          contact: eventDetails.orgContact.contact,
         },
       ],
     };
@@ -58,10 +61,10 @@ export default function Review({ eventDetails }) {
     formData.append("endTime", body.endTime);
     formData.append("description", body.description);
     formData.append("organizer", JSON.stringify(body.organizer));
-    console.log("body", body);
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    // console.log("body", body);
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}: ${value}`);
+    // }
 
     var token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmM3MTg5NTY0ZDRkZDJiZjg5NWQzNDYiLCJpYXQiOjE3MjgwNDA3MDksImV4cCI6MTczMDYzMjcwOX0.hKQ_dip2YmatYK8lyA6sYPy6URzbSgsoZgL5fYXNswQ";
@@ -77,13 +80,10 @@ export default function Review({ eventDetails }) {
         redirect: "follow",
         body: formData,
       };
-      await fetch(
-        `http://localhost:4000/api/event/create-event`,
-        requestOptions
-      )
+      await fetch(`${END_POINT.BASE_URL}/event/create-event`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
+          // console.log(result);
           if (result.success === true) {
             console.log("event success", result.data);
           } else {
@@ -192,9 +192,11 @@ export default function Review({ eventDetails }) {
             <p className="text-[#5A5A5A] font-normal text-sm">{detail}</p>
           </div>
         </div>
-        <div className="btn btn-primary" onClick={handleSubmit}>
-          Create
-        </div>
+        <AppButton
+          handleClick={handleSubmit}
+          label="Create Event"
+          containerStyle="min-w-[70px] mb-3"
+        />
       </section>
     </>
   );

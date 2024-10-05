@@ -216,16 +216,15 @@ export default function EventsDesc() {
               {event?.organizer?.map((org) => (
                 <>
                   <h1 className="text-[0.9rem] font-[600]">{org?.name}</h1>
+                  <p className="text-[0.7rem] font-[200]">{org?.email}</p>
                 </>
               ))}
-
-              <p className="text-[0.7rem] font-[200]">@colabinnovationhub</p>
             </div>
             <div className="relative w-[2rem] h-[2rem] rounded-[100px] bg-[#5040A1]">
               <FaPlus className="text-white absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             </div>
           </div>
-          <p className="text-start my-[0.5rem] text-[0.8rem] text-[#5A5A5A]">
+          {/* <p className="text-start my-[0.5rem] text-[0.8rem] text-[#5A5A5A]">
             Lorem ipsum dolor sit amet consectetur. Et mattis integer arcu
             ultricies elit scelerisque. Proin in nulla nuncincidunt{" "}
           </p>
@@ -233,7 +232,7 @@ export default function EventsDesc() {
             <p className="flex gap-[0.3rem] items-center text-[0.7rem] text-[#5040A1]">
               Read More <IoIosArrowDown />
             </p>
-          </a>
+          </a> */}
         </div>
       </div>
 

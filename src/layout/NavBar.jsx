@@ -15,6 +15,7 @@ import logo from "../assets/logo.png";
 
 const NavBar = ({ isLoggedIn }) => {
   const [isActive, setIsActive] = useState("Home");
+  const user = JSON.parse(localStorage.getItem("user")) || [];
 
   // category and search
   const [selectedValue, setSelectedValue] = useState("");
@@ -96,7 +97,9 @@ const NavBar = ({ isLoggedIn }) => {
           {isLoggedIn ? (
             <div className="min-w-[120px] flex items-center justify-between gap-4">
               <div className="profileImage bg-gray-300 border w-[50px] h-[50px] rounded-full">
-                <Link to={appRoutes.profile}>Profile</Link>
+                <Link to={appRoutes.profile}>
+                  <img src={user?.avatar} alt="" srcset="" />
+                </Link>
               </div>
 
               <AppButton
