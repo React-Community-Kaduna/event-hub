@@ -49,7 +49,7 @@ export default function EventsDesc() {
         `${END_POINT.BASE_URL}/event/get-event/${eventId}`
       );
       setEvent(response.data.data);
-      console.log(response.data);
+      console.log("g", response.data);
     } catch (error) {
       console.log("error", error.message);
     }
@@ -91,12 +91,39 @@ export default function EventsDesc() {
       navigate("/login");
     }
   };
+  const handleUnRegister = async () => {
+    let userConfirmed = window.confirm(
+      "are you sure you want to unregister for this event"
+    );
+    if (userConfirmed) {
+      var myHeaders = new Headers();
+      myHeaders.append("x-auth-token", token);
 
-  const handleUnRegister = async () => {};
+      var requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+      await fetch(
+        `${END_POINT.BASE_URL}/event/${eventId}/unregister`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          alert(result.message);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    } else {
+      alert("User clicked Cancel.");
+    }
+  };
 
   console.log(event.organizer, "org");
 
   var intt = event?.interestedUsers?.includes(userId);
+  console.log(intt, "rr", userId);
 
   function buyTicket(e) {
     e.preventDefault();
@@ -162,8 +189,8 @@ export default function EventsDesc() {
           </button>
           {intt ? (
             <>
-              {" "}
               <p className="mt-3">You have already registered for this event</p>
+
               <button
                 onClick={handleUnRegister}
                 className="mt-2 flex gap-[0.5rem] text-[1.2rem] sm:text-[1rem] items-center bg-[#3557C2] px-[2rem] py-[0.7rem] rounded-[5px] text-white"
@@ -182,6 +209,10 @@ export default function EventsDesc() {
               </button>
             </>
           )}
+          <p className="mt-3">
+            {event?.interestedUsers?.length} people have registered for this
+            event
+          </p>
           <h1 className="my-[1rem] text-[1.3rem] sm:text-[1.1rem] font-[600]">
             Ticket Information
           </h1>
