@@ -68,6 +68,7 @@ import { useCookies } from "react-cookie";
 const Profile = ({ activePath }) => {
   const [cookies] = useCookies(["userCookie"]);
   const [_, setCookie] = useCookies(["userEventsCookie"]);
+  const [events, setEvents] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("user")) || [];
   const token = cookies?.userCookie;
@@ -88,6 +89,7 @@ const Profile = ({ activePath }) => {
       .then((response) => response.json())
       .then((result) => {
         console.log("user events", result.events);
+        setEvents(result.events);
         setCookie("userEventsCookie", JSON.stringify(result.events), {
           path: "/",
           maxAge: 28800,
@@ -229,7 +231,7 @@ const Profile = ({ activePath }) => {
 
         <div className="headingsDetails">
           {active == "about me" && <About about={user.about} />}
-          {active == "my bookings" && <Bookings bookings={userEvents} />}
+          {active == "my bookings" && <Bookings bookings={events} />}
           {active == "my events" && (
             <p className="text-gray-700 leading-[1.5]">
               {user.events ?? "No event created"}
