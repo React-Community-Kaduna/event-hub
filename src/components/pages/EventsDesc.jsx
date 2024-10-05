@@ -262,9 +262,7 @@ export default function EventsDesc() {
         </div>
       </div>
 
-      <div className="mt-[5rem] md:px-0">
-        <OtherEvents />
-      </div>
+      <div className="mt-[5rem] md:px-0"></div>
     </div>
   );
 }
