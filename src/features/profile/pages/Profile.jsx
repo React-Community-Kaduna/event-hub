@@ -68,14 +68,14 @@ import { useCookies } from "react-cookie";
 const Profile = ({ activePath }) => {
   const [cookies] = useCookies(["userCookie"]);
   const [_, setCookie] = useCookies(["userEventsCookie"]);
-  const [events, setEvents] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("user")) || [];
   const token = cookies?.userCookie;
-  // const userEvents = _?.userEventsCookie;
+  const userEvents = _?.userEventsCookie;
 
   const getRegisteredEvents = async () => {
     // const token = localStorage.getItem("token");
+    console.log("token inside", token);
 
     var myHeaders = new Headers();
     myHeaders.append("x-auth-token", token);
@@ -88,8 +88,6 @@ const Profile = ({ activePath }) => {
     await fetch(`${END_POINT.BASE_URL}/users/events`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("user events", result.events);
-        setEvents(result.events);
         setCookie("userEventsCookie", JSON.stringify(result.events), {
           path: "/",
           maxAge: 28800,
@@ -145,10 +143,12 @@ const Profile = ({ activePath }) => {
   };
 
   useEffect(() => {
-    // userEvents
-    //   ? console.log("user events available", userEvents)
-    getRegisteredEvents();
-  }, []);
+    {
+      userEvents
+        ? console.log("user events available", userEvents)
+        : getRegisteredEvents();
+    }
+  }, [userEvents]);
 
   return (
     <main className="lg:px-0 md:px-0 px-2">
@@ -231,7 +231,7 @@ const Profile = ({ activePath }) => {
 
         <div className="headingsDetails">
           {active == "about me" && <About about={user.about} />}
-          {active == "my bookings" && <Bookings bookings={events} />}
+          {active == "my bookings" && <Bookings bookings={userEvents} />}
           {active == "my events" && (
             <p className="text-gray-700 leading-[1.5]">
               {user.events ?? "No event created"}
