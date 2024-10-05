@@ -3,7 +3,7 @@ import { END_POINT } from "../../config/environment";
 
 export const allEvents = createAsyncThunk("events/all", async () => {
   try {
-    const request = await fetch(`http://localhost:4000/api/event/all`);
+    const request = await fetch(`${END_POINT.BASE_URL}/event/all`);
     if (!request.ok) {
       throw new Error(request.status);
     }
