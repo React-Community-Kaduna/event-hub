@@ -187,7 +187,7 @@ export default function EventsDesc() {
           >
             <IoTicket className="text-[1.5rem]" /> Buy Tickets
           </button>
-          {intt ? (
+          {intt && token ? (
             <>
               <p className="mt-3">You have already registered for this event</p>
 

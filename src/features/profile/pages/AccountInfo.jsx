@@ -15,7 +15,6 @@ const AccountInfo = () => {
     };
     // setProfileImage(e.target.files[0]);
     console.log(e.target.files[0]);
-
   };
 
   const handleContactInfo = (e) => {
@@ -27,14 +26,14 @@ const AccountInfo = () => {
   };
 
   const handleSubmit = () => {
-    if(profileInfo.length < 4 || contactInfo.length < 5) {
+    if (profileInfo.length < 4 || contactInfo.length < 5) {
       alert("Fill form completely");
       return;
     }
     console.log(profileInfo);
     console.log(contactInfo);
     console.log(profileImage);
-  }
+  };
 
   return (
     <main className="px-3">
