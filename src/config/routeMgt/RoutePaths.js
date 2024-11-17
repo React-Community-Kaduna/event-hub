@@ -3,7 +3,7 @@ export const appRoutes = {
   sign_up: '/sign-up',
   login: '/login',
   logout: '/logout',
-  reset_password: '/reset-password',
+  reset_password: '/api/user/reset-password/:token',
   forgot_password: '/forgot-password',
 
   //Pages
@@ -15,13 +15,13 @@ export const appRoutes = {
   share: '/share',
   helpCenter: '/help-center',
   aboutUs: '/about-us',
-  contactUs: '/contact-us',
+  find_event:"/event/:name",
 
   // Landing page
   home: '/',
 
   // contact us
-
+  contactUs: '/contact-us',
   // Coming soon/Find events
   coming_soon: '/coming-soon',
 
@@ -31,4 +31,3 @@ export const appRoutes = {
   // profile
   profile: '/profile',
 }
-

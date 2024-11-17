@@ -72,11 +72,16 @@ body {
   background: linear-gradient(to top, #00000076, #00000028);
 }
 
-/* .active{
-  color: red;
-  
-} */
 
+.auth > .active,.mobile > .active{
+  background-color: #3557c2;
+  border:transparent;
+  color: #fff;
+}
+.large > .active{
+  color: var(--app-blue);
+  border-top: var(--app-blue) solid 2px;
+}
 .loader {
   width: 47px;
   height: 47px;
@@ -121,3 +126,13 @@ body {
   input[type="number"] {
       -moz-appearance: textfield;
   }
+  /* input:-webkit-autofill {
+    color: black;
+    background: #fff;
+   
+   
+} */
+
+footer p:hover,footer a:hover{
+  color: #fff;
+}

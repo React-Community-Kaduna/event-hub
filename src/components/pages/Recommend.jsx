@@ -1,5 +1,7 @@
+import { NavLink } from "react-router-dom";
 import recommend from "../../../src/assets/images/recommend.png";
 import { FaArrowRight } from "react-icons/fa6";
+import { appRoutes } from "../../config/routeMgt/RoutePaths";
 
 export default function Recommend() {
   return (
@@ -15,9 +17,9 @@ export default function Recommend() {
           Get event suggestions tailored to your interests! Don&apos;t let your
           favorite events slip away.
         </p>
-        <button className="mt-[2rem] flex justify-center m-auto bg-[#2B293D] text-[#FFE047] px-4 py-3 rounded-[5px] items-center gap-4 text-md min-w-[170px]">
+        <NavLink to={appRoutes.search} className="mt-[2rem] flex justify-center m-auto bg-[#2B293D] text-[#FFE047] px-4 py-3 rounded-[5px] items-center gap-4 text-md min-w-[170px] w-fit">
           Get Started <FaArrowRight />
-        </button>
+        </NavLink>
       </div>
     </div>
   )

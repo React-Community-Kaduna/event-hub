@@ -16,7 +16,7 @@ const initialValue = {
     ],
   },
   location: { name: "", error: false },
-  description: { detail: "Get ready for an unforgettable day of live music, great food, and amazing vibes! The Summer Beats Music Festival features top local bands, food trucks, craft beer, and more. Whether you're a fan of rock, indie, or electronic, there’s something for everyone. Bring your friends, enjoy the sunshine, and let’s make some memories!", error: false },
+  description: { detail: "", error: false },
   banner: { image: "", error: false },
   ticket: {
     EventTicketType: "",
@@ -29,9 +29,9 @@ const initialValue = {
     ],
   },
   organizationDetails: {
-    orgName: { name: "fitech", error: false },
-    orgEmail: { Email: "fitech@gmail.com", error: false },
-    orgContact: { contact: "+235345565", error: false },
+    orgName: { name: "", error: false },
+    orgEmail: { Email: "", error: false },
+    orgContact: { contact: "", error: false },
   },
 };
 export const CreateEventContext = createContext(initialValue);

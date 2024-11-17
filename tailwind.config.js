@@ -10,7 +10,8 @@ export default {
       },
       backgroundImage:{
         "coming_soon":"url('src/assets/Saly-2.svg')",
-        "coming_soon2":"url('src/assets/Saly-2.jpg')"
+        "coming_soon2":"url('src/assets/Saly-2.jpg')",
+        "error":"url('src/assets/bg.png')"
       }
     },
   },

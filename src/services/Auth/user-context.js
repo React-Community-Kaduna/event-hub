@@ -1,7 +1,64 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { END_POINT } from "../../config/environment";
 import toast from "react-hot-toast";
+import { appRoutes } from "../../config/routeMgt/RoutePaths";
 
+
+export const forgetPassord = createAsyncThunk(
+  'user/forget-password',
+  async (data,{ rejectWithValue }) => {
+    toast.loading("sending request")
+    try{
+      const request = await fetch(`${END_POINT.BASE_URL}/users/forgot-password`,{
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      const response = await request.json()
+      if(request.status !== 200){
+        throw new Error(response.message);
+      }
+      toast.success("check your email for further instruction")
+      console.log(response)
+      return response;
+    }catch(error){
+      toast.error(error.message)
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const resetPassord = createAsyncThunk(
+  'user/reset-password',
+  async (data,{ rejectWithValue }) => {
+    const {userData,token,navigate} = data
+    toast.loading("sending request")
+    try{
+      const request = await fetch(`${END_POINT.BASE_URL}/users/reset-password/${token}`,{
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          // "x-auth-token":token,
+        },
+        body: JSON.stringify(userData),
+      })
+      console.log(request)
+      const response = await request.json()
+      if(request.status !== 200){
+        throw new Error(response.message);
+      }
+      toast.success("passoword reset successfully")
+      console.log(response)
+      navigate(appRoutes.profile)
+      return response;
+    }catch(error){
+      toast.error(error.message)
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 export const userSignIn = createAsyncThunk(
     'user/signIn',
@@ -31,17 +88,22 @@ export const userSignUp = createAsyncThunk(
     'user/signUp',
     async (data,{ rejectWithValue }) => {
       try{
-        const request = await fetch("https://apis-event-hub.onrender.com/api/users/signup", {
+        const request = await fetch(`${END_POINT.BASE_URL}/users/signup`, {
           method: "Post",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
         });
-        if (!request.ok){
-          throw new Error(`Failed to create user`);
-        }
+        console.log(request)
+        // if (!request.ok){
+        //   throw new Error(`Failed to create user`);
+        // }
         const res = await request.json()
+        if(request.status === 401 || request.status === 400){ 
+          throw new Error(res.message);
+        }
+        console.log(res)
         toast.success("welcome to event hub")
         return res;
       }catch(error){
@@ -55,29 +117,38 @@ export const userSignUp = createAsyncThunk(
     'user/update',
     async (data,{ rejectWithValue }) => {
       const {data:updateData, token} = data   
-        try{
-            const reqest = await fetch(`${END_POINT.BASE_URL}/users/me/update`, {
-              method: "put",
-              headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`,
-              },
-              body: JSON.stringify(updateData),
-            });
-            if (!reqest.ok){
-              throw new Error(`Failed to create user st: ${reqest.status} stText${reqest.statusText} formdata ${reqest.formData} body ${reqest.body}`);
-            }
-            const res = await reqest.json()
-            console.log(res)
-            return res
-          }catch(error){
-            return rejectWithValue(error.message);
-          }
+      const formData = new FormData();
+      for (const key in updateData) {
+       formData.append(key, updateData[key]);
+      }
+      console.log(formData,updateData)
+       if (token) {
+        var myHeaders = new Headers();
+        myHeaders.append("x-auth-token", token);
+  
+        var requestOptions = {
+          method: "PUT",
+          headers: myHeaders,
+          redirect: "follow",
+          body: formData,
+        };
+        try {
+          const request = await fetch(`${END_POINT.BASE_URL}/users/me/update`, requestOptions)
+          const response = await request.json() 
+          console.log(response)
+          toast.success(response.message)
+          return  response.data.user
+        } catch (error) {
+          console.log("error", error);
+          return rejectWithValue("failed to update user profile");
+        }
+      }
     },
   )  
   export const logUserOut = createAsyncThunk(
     'user/sign-out',
     async () => { 
+      console.log("cll")
         try{
             const reqest = await fetch(`${END_POINT.BASE_URL}/users/logout`);
             if (!reqest.ok){
@@ -148,7 +219,6 @@ const  authentication =createSlice({
           console.log(action.payload)
             state.user=action.payload
             state.loading = false;
-            state.token = action.payload.token;
             state.error=null
         }),
         builder.addCase(updateUserDetails.rejected,(state,action)=>{
@@ -170,7 +240,39 @@ const  authentication =createSlice({
         console.log(action)
           state.error=action.error
           state.loading=false
-      })
+      }),
+      builder.addCase(forgetPassord.pending,(state,action)=>{
+        state.error=null,
+        state.loading=true
+    }),
+    builder.addCase(forgetPassord.fulfilled,(state,action)=>{
+      console.log(action.payload)
+        state.user=null
+        state.loading = false;
+        state.token = null;
+        state.error=null
+    }),
+    builder.addCase(forgetPassord.rejected,(state,action)=>{
+      console.log(action)
+        state.error=action.error
+        state.loading=false
+    }),
+    builder.addCase(resetPassord.pending,(state,action)=>{
+      state.error=null,
+      state.loading=true
+  }),
+  builder.addCase(resetPassord.fulfilled,(state,action)=>{
+    console.log(action.payload)
+      state.user=null
+      state.loading = false;
+      state.token = null;
+      state.error=null
+  }),
+  builder.addCase(resetPassord.rejected,(state,action)=>{
+    console.log(action)
+      state.error=action.error
+      state.loading=false
+  })
     }
 });
 

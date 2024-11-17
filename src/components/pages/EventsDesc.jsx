@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { BiCalendar, BiShareAlt } from "react-icons/bi";
-import { IoCalendarOutline, IoStar, IoTicket } from "react-icons/io5";
+import { BiShareAlt } from "react-icons/bi";
+import { IoCalendarOutline, IoTicket } from "react-icons/io5";
 import { BsClock } from "react-icons/bs";
-import { TiTickOutline } from "react-icons/ti";
 import { SlLocationPin } from "react-icons/sl";
 import { FaPlus } from "react-icons/fa6";
 import { MdPerson } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import OtherEvents from "./OtherEvents";
-import AIimage from '../../../src/assets/images/AIimage.png'
 import SimpleMap from "./SimpleMap";
-import TicketBooking from "./TicketBooking";
-import { useNavigate, Link, useParams, useLoaderData } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import Modal from "../Modal";
-import AttendeeDets from "./AttendeeDets";
 import Share from "./Share";
 import { useSelector } from "react-redux";
 import { END_POINT } from "../../config/environment";
@@ -44,7 +40,7 @@ function EventsDesc() {
   const [shareModal, setShareModal] = useState(false);
   const navigate = useNavigate();
 
-  const {imageUrl, location, title,startTime,endTime,date:date_string,organizer=[],description } =eventDetails.data;
+  const {imageUrl, location, title,startTime,endTime,date:date_string,organizer=[],description,status } =eventDetails.data;
   const date = new Date(date_string).toLocaleDateString("en-Us",{day: "2-digit", month: "numeric", year: "numeric"}).replaceAll("/", "-");  
   console.log(date)
   function buyTicket(e) {
@@ -107,7 +103,7 @@ function EventsDesc() {
     {isAuth && <ProtectedRouteMessage/>}
     {shareModal && <Modal modalHandler={() => setShareModal(false)}>
   
-   <Share title={title} location={location}/>
+   <Share title={title} location={location} modalHandler={() => setShareModal(false)}/>
  </Modal>}  
     <div className="sm:px-9 lg:px-0 px-5 max-w-7xl m-auto pt-5 font-openSans">
       <div className="max-w-4xl mx-auto">
@@ -120,12 +116,11 @@ function EventsDesc() {
       </div>
 
       <div className="mt-[2rem] sm:mt-[1rem]  text-[#2D2C3C] flex items-center justify-between">
-        <h1 className="text-xl sm:text-[1.2rem] font-[800]">
+        <h1 className="text-xl sm:text-2xl font-extrabold capitalize">
          {title}
         </h1>
         <div className="text-[2rem] sm:text-[1.5rem] flex gap-2">
-          <IoStar className="cursor-pointer"/>
-          <BiShareAlt onClick={toShare} className="cursor-pointer"/>
+          <BiShareAlt onClick={toShare} className="cursor-pointer hover:text-[#3557c2]"/>
         </div>
       </div>
 
@@ -153,13 +148,13 @@ function EventsDesc() {
           </a>
         </div>
         <div className="py-4">
-          <button
+         {status !== "Past" &&  <button
             //onClick={buyTicket}
             onClick={eventRegHandler}
             className="py-3 px-6 sm:px-2 rounded-md flex w-full  bg-[#3557C2] text-white justify-center "
           >
             <IoTicket className="text-[1.5rem]" /> Register
-          </button>
+          </button>}
           <h1 className="my-[1rem] text-[1.3rem] sm:text-[1.1rem] font-[600]">
             Ticket Information
           </h1>
@@ -212,38 +207,6 @@ function EventsDesc() {
 
       <div className="mt-[3rem]">
         <h1 className="text-[1.4rem] sm:text-[1.2rem] font-[600]">Event Description</h1>
-        {/* <div className="text-[#5A5A5A] italic">
-          <p className="my-[1rem]">
-            Lorem ipsum dolor sit amet consectetur. Et mattis integer arcu
-            ultricies elit scelerisque. Proin in nulla nuncincidunt{" "}
-          </p>
-          <p className="my-[1rem]">
-            Lorem ipsum dolor sit amet consectetur. Et mattis integer arcu
-            ultricies elit scelerisque. Proin in nulla nunc lacus lectus tempus
-            vel condimentum dis. Tincidunt pretium erat interdum consectetur.
-            Arcu euismod lectus tortor duis egestas amet lacinia magna.
-          </p>
-          <p className="my-[1rem]">
-            Lorem ipsum dolor sit amet consectetur. Et mattis integer arcu
-            ultricies elit scelerisque. Proin in nulla nunc lacus lectus tempus
-            vel condimentum dis. Tincidunt pretium erat interdum consectetur.
-            Arcu euismod lectus tortor duis egestas amet lacinia magna.
-          </p>
-        </div>
-        <div className="text-[0.9rem] text-[#5A5A5A]">
-          <h1 className="mb-[1rem] font-[700]">
-            3 Reasons to attend the event:
-          </h1>
-          <p className="text-[0.9rem]">
-            1. Lorem ipsum dolor sit amet consectetur.
-          </p>
-          <p className="text-[0.9rem]">
-            2. Lorem ipsum dolor sit amet consectetur.
-          </p>
-          <p className="text-[0.9rem]">
-            3. Lorem ipsum dolor sit amet consectetur.
-          </p>
-        </div> */}
         {description}
       </div>
 

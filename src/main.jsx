@@ -5,8 +5,10 @@ import { GlobalProvider } from './stateManagement/GlobalContext.jsx'
 import { Provider } from 'react-redux'
 import store from './services/app-contex.js'
 import { Toaster } from 'react-hot-toast'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <GoogleOAuthProvider clientId='346452311147-n7s0kslpo5ha0a6v3pg0jt0vet2838b6.apps.googleusercontent.com'>
   <GlobalProvider>
     <Provider store={store}>
       <App />
@@ -27,5 +29,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       }}
       />
     </Provider>
-  </GlobalProvider>,
+  </GlobalProvider>
+  </GoogleOAuthProvider>
 )

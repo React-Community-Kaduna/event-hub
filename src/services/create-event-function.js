@@ -50,24 +50,26 @@ export const createEventFn = async (eventDetails,file,navigate,token,setIsLoadin
         redirect: "follow",
         body: formData,
       };
-      await fetch(`${END_POINT.BASE_URL}/event/create-event`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.success === true) {
-            console.log("event success", result.data);
-            dispatchFn(getEvents())
-            toast.success("Event Created Successfully")
-            navigate("/")
-          } else {
-            toast.error(`Event Creation Failed due to ${result.message}`);
-            console.log("error", result.message);
-          }
+     
+      try {
+        const request = await fetch(`${END_POINT.BASE_URL}/event/create-event`, requestOptions)
+        console.log(request)
+        const response = await request.json()
+      
+        if (response?.message){
+          toast.error(`Event Creation Failed due to ${response.message}`);
           setIsLoading(false)
-        })
-        .catch((error) => {
-          toast.error("Event Creation Failed");
-          console.log("error", error);
-          setIsLoading(false)
-        });
+          return null
+        }
+        console.log("event success", response);
+          dispatchFn(getEvents())
+          toast.success("Event Created Successfully")
+          navigate("/")
+        setIsLoading(false)
+      } catch (error) {
+        toast.error("Event Creation Failed");
+        console.log("error", error);
+        setIsLoading(false)
+      }   
     }
   };

@@ -1,6 +1,6 @@
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+import img from "../../assets/profile-img.jpg"
 
-// eslint-disable-next-line react/prop-types
 export default function AuthenticationDetails() {
   return (
     <div className="hidden sm:block text-[#59595A] font-openSans lg:w-1/2 sm:w-full items-center">
@@ -16,7 +16,7 @@ export default function AuthenticationDetails() {
         </p>
       </div>
       <div>
-        <div className="bg-white border-2 rounded-lg mt-10">
+        <div className="bg-white  shadow-sm rounded-lg mt-10">
           <div className="p-3">
             <p>
               Hi, I am Mercy Ayomide, a passionate community member eager to
@@ -28,20 +28,16 @@ export default function AuthenticationDetails() {
               forward to connecting with you!
             </p>
           </div>
-          <div className="border-t-2 p-4 flex justify-between items-center">
+          <div className="border-t p-4 flex justify-between items-center">
             <div className="flex justify-between items-center gap-4">
               <img
-                src="public/images/profile-img.jpg"
-                alt="picture"
+                src={img}
+                alt="avatar"
                 className="w-[50px] rounded-md"
               />
-              <span>Peter. V</span>
+              <span>Mercy Ayomide</span>
             </div>
           </div>
-        </div>
-        <div className="flex mt-3 gap-2 justify-end">
-          <GoArrowLeft className="bg-white p-2 text-2xl rounded-sm" />
-          <GoArrowRight className="bg-white p-2 text-2xl rounded-sm" />
         </div>
       </div>
     </div>
