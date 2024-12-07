@@ -11,8 +11,6 @@ export const updatePaswordFn = async (data,token,setIsLoading) => {
     formData.append("confirmPassword", data.confirmPassword);
 
     if(token){
-      console.log("sending",data)
-      console.log(typeof token)
       try{
         const request = await fetch(`${END_POINT.BASE_URL}/users/me/update-password`,{
           body:JSON.stringify(data),
@@ -24,12 +22,10 @@ export const updatePaswordFn = async (data,token,setIsLoading) => {
         })
         setIsLoading(false)
           const response = await request.json()
-          console.log(response)
           toast.success(response.message)
       }catch(error){
         toast.error("failed to update password")
         setIsLoading(false)
-        console.log(error)
       }
     }
   };

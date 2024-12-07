@@ -1,4 +1,3 @@
-import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import img from "../../assets/profile-img.jpg"
 
 export default function AuthenticationDetails() {

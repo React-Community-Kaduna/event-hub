@@ -1,16 +1,12 @@
 import coverimage from "../../../src/assets/images/coverImage.jpeg";
 import { IoSearch } from "react-icons/io5";
-import { SlLocationPin } from "react-icons/sl";
-import { IoIosArrowDown } from "react-icons/io";
 import { END_POINT } from "../../config/environment";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import toast from "react-hot-toast";
 
 export default function SeaarchHeader({searchHandler}) {
   const ref = useRef()
-  const [isLoading,setIsLoading] = useState(false)
   async function searchForEventHandler(){
-    setIsLoading(true)
     const value = ref.current.value
     try {
       const request = await fetch(`${END_POINT.BASE_URL}/event/search?text=${value}`)
@@ -19,10 +15,8 @@ export default function SeaarchHeader({searchHandler}) {
       }
       const data = await request.json() 
       console.log(data)
-      setIsLoading(false)
       searchHandler(data)
     } catch (error) {
-      setIsLoading(false)
       toast.error("Failed to search for event")
     }
   }
@@ -51,19 +45,6 @@ export default function SeaarchHeader({searchHandler}) {
             <IoSearch className="absolute text-gray-400 left-3 sm:top-1 -top-0 mt-[0.7rem] md:mt-[0.9rem]  text-[1.6rem] sm:text-[1.2rem] md:text-xl" />
           </div>
           <button className="py-3 rounded-md hover:bg-white capitalize hover:text-[#3557c2] bg-[#3557c2] text-white sm:px-10">search</button>
-          {/* <div className="relative max-[367px]:border-none border-gray-300 border-l-[0.5px] text-[#5A5A5A] w-2/5 max-[367px]:w-full">
-            <SlLocationPin className="absolute top-2 sm:top-3 left-4 text-[1.5rem] sm:text-[1.2rem]" />
-            <select
-              name=""
-              id=""
-              className="focus:outline-none rounded-tr-[5px] rounded-br-[5px] appearance-none w-full pl-10 py-3 sm:py-[9px] text-sm sm:text-base max-[367px]:rounded"
-            >
-              <option value=""> Places in Kd</option>
-            </select>
-            <div className="absolute right-3 top-[1.1rem] pointer-events-none">
-              <IoIosArrowDown className="text-[1.1rem]" />
-            </div>
-          </div> */}
         </form>
       </div>
     </div>

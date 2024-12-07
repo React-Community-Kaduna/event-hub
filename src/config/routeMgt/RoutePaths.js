@@ -3,7 +3,7 @@ export const appRoutes = {
   sign_up: '/sign-up',
   login: '/login',
   logout: '/logout',
-  reset_password: '/api/user/reset-password/:token',
+  reset_password: '/api/users/reset-password/:token',
   forgot_password: '/forgot-password',
 
   //Pages

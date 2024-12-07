@@ -5,7 +5,6 @@ import { CiLocationOn } from "react-icons/ci";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { END_POINT } from "../../config/environment";
 import { createEventFn } from "../../services/create-event-function";
 import { Loader } from "../../components/Loading";
 import { useState } from "react";
@@ -24,7 +23,6 @@ export default function Review({ eventDetails }) {
   } = eventDetails;
   const navigate = useNavigate();
   const {token} = useSelector((state) => state.user)
-  console.log(token)
   const [isLoading,setIsLoading] = useState(false)
   const handleSubmit = async () => {
    await createEventFn(eventDetails,file,navigate,token,setIsLoading,dispatchFn)

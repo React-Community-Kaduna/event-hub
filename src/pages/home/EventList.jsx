@@ -7,6 +7,15 @@ import { Skeleton } from "@mui/material";
 
 export default function EventList (){
   const {events,loading } = useSelector((state) => state.events);
+
+  if(events === "NetworkError when attempting to fetch resource."){
+    console.log("error")
+    return  <div className="my-24">
+    <div className="mx-auto w-4/5 md:w-3/4 bg-white flex flex-col justify-center items-center text-center gap-4 text-2xl font-openSans leading-10">
+    <h2>You are currently offline or experiencing a poor network connection. Try connecting to Wi-Fi and reloading the page</h2>
+    </div>
+    </div>
+  }
     const navigation = useNavigation()
     let placeholder = new Array(15).fill(0)
     return (

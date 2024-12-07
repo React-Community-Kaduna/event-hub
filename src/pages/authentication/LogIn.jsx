@@ -126,15 +126,15 @@ const LogIn = () => {
           >
             {isLoading ? "Loading..." : "Login"}
           </button>
-          <div className="text-center relative py-3">
+          {/* <div className="text-center relative py-3">
             <hr className="text-gray-700" />
             <span className="absolute top-1 bg-white px-2">Or</span>
           </div>
-          <GoogleAuth isLoading={isLoading}/>
+          <GoogleAuth isLoading={isLoading}/> */}
           <div className="text-center flex justify-center items-center">
-          Already have an account?
-            <Link to={appRoutes.login} className="flex font-semibold no-underline text-black hover:text-[#3557C2] items-center">
-            LogIn
+          Don't have an account yet? 
+            <Link to={appRoutes.sign_up} className="flex font-semibold no-underline text-black hover:text-[#3557C2] items-center">
+             Sign up
                 <GoArrowUpRight />
             </Link>
           </div>

@@ -20,8 +20,8 @@ const categoriesData = [
   { name: "Entertainment", image: entertainment },
   { name: "Educational & Business", image: education },
   { name: "Cultural & Arts", image: cultural },
-  { name: "Governmental", image: governmental },
-  { name: "Sports & Fitness", image: field },
+  { name: "GovernmentFitnessal", image: governmental },
+  { name: "Sports & ", image: field },
 ];
 
 export default function Home() {
@@ -265,7 +265,7 @@ export default function Home() {
         </div>
 
         <Recommend />
-        {events.length > 0 && <OtherEvents />}
+        {events?.length > 0 && events !== "NetworkError when attempting to fetch resource." && <OtherEvents />}
       </div>
     </div>
     </>

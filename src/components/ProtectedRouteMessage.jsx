@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import { appRoutes } from "../config/routeMgt/RoutePaths";
-import { useState } from "react";
 
 function ProtectedRouteMessage() {
   return (

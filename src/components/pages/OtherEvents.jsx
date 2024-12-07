@@ -3,8 +3,9 @@ import EventCard from "../cards/EventCard";
 
 export default function OtherEvents() {
   const {events} = useSelector((state) => state.events);
-
+  if(events.length <= 0) return
   let otherEventsData = events.slice(0, 3);
+
   return (
     <div className="lg:px-12 md:px-8 px-4 my-16">
       <h2 className="text-[24px] lg:text-[32px] md:text[28px] font-[700] font-montserrat text-[#2D2C3C]">

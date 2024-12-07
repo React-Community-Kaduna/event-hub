@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiShareAlt } from "react-icons/bi";
 import { IoCalendarOutline, IoTicket } from "react-icons/io5";
 import { BsClock } from "react-icons/bs";
@@ -8,13 +8,15 @@ import { MdPerson } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import OtherEvents from "./OtherEvents";
 import SimpleMap from "./SimpleMap";
-import { useNavigate, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import Modal from "../Modal";
 import Share from "./Share";
 import { useSelector } from "react-redux";
 import { END_POINT } from "../../config/environment";
 import ProtectedRouteMessage from "../ProtectedRouteMessage";
 import toast from "react-hot-toast";
+import { AddToCalendarButton } from "add-to-calendar-button-react";
+import RegModal from "../RegModal";
 
 const tagData = [
   { name: "Tech" },
@@ -34,33 +36,45 @@ function EventsDesc() {
   //the return fetch event data
   const eventDetails = useLoaderData()
   const {token,user} = useSelector(state=>state.user)
-  console.log(eventDetails)
   const [isAuth,setIsAuth] = useState(false)
-  //const [modal, setModal] = useState(false);
   const [shareModal, setShareModal] = useState(false);
-  const navigate = useNavigate();
+  const [isRegOpen,setIsRegOpen] = useState(false)
+  const [isRegConfirm, setIsRegConfirm] = useState(false)
+  const [isRegLoading, setIsRegLoading] = useState(false)
 
   const {imageUrl, location, title,startTime,endTime,date:date_string,organizer=[],description,status } =eventDetails.data;
   const date = new Date(date_string).toLocaleDateString("en-Us",{day: "2-digit", month: "numeric", year: "numeric"}).replaceAll("/", "-");  
-  console.log(date)
-  function buyTicket(e) {
-    e.preventDefault();
-    navigate("/ticketBooking");
+  const googleCalendarLink = `https://calendar.google.com/calendar/r/eventedit?text=React+Workshop&dates=20241201T100000Z/20241201T120000Z&details=Join+our+React+Workshop&location=Online`;
+
+  // function buyTicket(e) {
+  //   e.preventDefault();
+  //   navigate("/ticketBooking");
+  // }
+
+  function confirmReg(){
+    setIsRegConfirm(true)
+  }
+
+  function closeRegModal(){
+    setIsRegOpen(false)
   }
 
   function toShare(){
     setShareModal(true)
   }
-
-  async function eventRegHandler(){
+ 
+  function eventRegHandler(){
     if(token === null){
       setIsAuth(true)
       return
     }
-      let userConfirmed = window.confirm(
-        "are you sure you want to register for this event"
-      );
-      if (userConfirmed) {
+      setIsRegOpen(true)
+  };
+
+  useEffect(()=>{
+    async function registerForEvent(){
+      if (isRegConfirm) {
+        setIsRegLoading(true)
         var myHeaders = new Headers();
         myHeaders.append("x-auth-token", token);
 
@@ -74,32 +88,30 @@ function EventsDesc() {
           requestOptions
         )
           .then((response) => {
-            console.log(response)
             toast.success("registration successfull");
+            setIsRegLoading(false)
+            setIsRegOpen(false)
+            setIsRegConfirm(false)
             return response.json();
           })
-          .then((result) => {
-            if (result.status === "success") {
-              console.log("success", result);
-              alert("registration successfull");
-            } else {
-              toast.error(result.message);
-              console.log("error", result.message);
-            }
-          })
           .catch((error) => {
-            console.log("error", error);
+            // console.log(error)
+            // toast.error("failed to register for the event try again");
+            setIsRegLoading(false)
+            setIsRegOpen(false)
+            setIsRegConfirm(false)
           });
-      } 
-     
-  };
- 
+      }
+    }
+    registerForEvent()
+  },[isRegConfirm])
  
   return (
     <>
     {/* {modal && <Modal modalHandler={() => setModal(false)} >
       <AttendeeDets title={title} date={date_string} modalHandler={() => setModal(false)} />
     </Modal>} */}
+    {isRegOpen && <RegModal confirmReg={confirmReg} closeRegModal={closeRegModal} isRegLoading={isRegLoading} />}
     {isAuth && <ProtectedRouteMessage/>}
     {shareModal && <Modal modalHandler={() => setShareModal(false)}>
   
@@ -142,9 +154,9 @@ function EventsDesc() {
             </h1>
           </span>
           <a href="">
-            <p className="px-[1rem] text-[0.9rem] md:text-[1.2rem] sm:text-[0.9rem] font-[500] text-[#4539B4]">
+            <a href={`http://www.google.com/calendar/event?action=TEMPLATE&dates=${date_string}%2FDATE_END&text=${title}&location=${location}&details=${description}`} className="px-[1rem] text-[0.9rem] md:text-[1.2rem] sm:text-[0.9rem] font-[500] text-[#4539B4]" target="_blank">
               + Add to Calendar
-            </p>
+            </a>
           </a>
         </div>
         <div className="py-4">

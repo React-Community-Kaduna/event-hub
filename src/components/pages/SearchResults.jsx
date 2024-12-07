@@ -1,14 +1,10 @@
 import Recommend from "./Recommend";
-import OtherEvents from "./OtherEvents";
-import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
-import { FaSliders } from "react-icons/fa6";
+import { useLoaderData } from "react-router-dom";
 import SeaarchHeader from "./seaarchHeader";
 import { useState } from "react";
 import EventCard from "../cards/EventCard";
-import Filter from "./Filter";
 import toast from "react-hot-toast";
 import { END_POINT } from "../../config/environment";
-import { appRoutes } from "../../config/routeMgt/RoutePaths";
 import { Skeleton } from "@mui/material";
 
 
@@ -16,7 +12,7 @@ export default function SearchResults() {
   const loaderData = useLoaderData()
   const [event,setEvent] = useState(loaderData)
   const [isLoading, setIsLoading] = useState(false)
-  const [showFilter, setShowFilter] = useState(false);
+  //const [showFilter, setShowFilter] = useState(false);
   const [eventNumm,setEventNum ] = useState(25)
   let placeholder = new Array(15).fill(0)
  
@@ -25,7 +21,7 @@ export default function SearchResults() {
   }
   async function getMoreEventHandle() {
     setIsLoading(true)
-    setIsLoading((num)=> num +10)
+    setEventNum((num)=> num +10)
     try{
         const response = await fetch(`${END_POINT.BASE_URL}/event/all?limit=${eventNumm+10}`);
         if (!response.ok) {
@@ -49,7 +45,7 @@ export default function SearchResults() {
   // }
   return (
     <>
-    <div className="">
+    <div className="overflow-x-hidden">
       <SeaarchHeader searchHandler={searchHandler}/>
       <>
       {/* <div className="px-[1.5rem] mt-[2rem] text-[#2D2C3C]">    
@@ -82,7 +78,7 @@ export default function SearchResults() {
           </div>
       </div>
       </>
-      {event.currentPage !== event.totalPages && <button disabled={isLoading} className="bg-[#3557c2] rounded w-[90%] sm:w-4/5 mx-auto grid py-2 text-white my-10 capitalize md:py-4 text-center disabled:cursor-not-allowed" onClick={getMoreEventHandle}>see more</button> }
+      {event.currentPage !== event.totalPages && <button disabled={isLoading} className="bg-[#3557c2] rounded w-[90%] sm:w-4/5 mx-auto grid py-2 text-white my-10 capitalize md:py-4 text-center disabled:cursor-not-allowed" onClick={getMoreEventHandle}>{isLoading?"fetching...":"see more"}</button> }
     </div>
     <div>
     </div>

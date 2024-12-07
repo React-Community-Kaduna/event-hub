@@ -25,7 +25,7 @@ export default function ForgetPassword() {
           <input id="email" type="email" className="border py-4 px-2 focus:border-[#3557c2] rounded-md outline-none" placeholder="example@gmail.com" required ref={emailRef}/>
           <div className="flex justify-end gap-4">
           <NavLink disabled={loading} to={appRoutes.login} className="bg-gray-600 hover:bg-white text-white border-transparent border hover:border-[#3557c2] hover:text-gray-600 p-4 rounded-md inline disabled:cursor-not-allowed">cancle</NavLink> 
-          <button disabled={loading } type="submit" className="disabled:cursor-not-allowed hover:bg-[#3557c2] bg-white text-[#3557c2] hover:text-white p-4 rounded-md capitalize hover:border-transparent border border-[#3557c2]">search</button>
+          <button disabled={loading } type="submit" className="disabled:cursor-not-allowed hover:bg-[#3557c2] bg-white text-[#3557c2] hover:text-white p-4 rounded-md capitalize hover:border-transparent border border-[#3557c2]">{!loading?"send":"sending...."}</button>
           </div>
         </form>
     </section>

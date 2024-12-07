@@ -1,9 +1,3 @@
-import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { FaFacebook } from "react-icons/fa6";
-import { FaXTwitter } from "react-icons/fa6";
-import { RiWhatsappFill } from "react-icons/ri";
-import { BsLinkedin } from "react-icons/bs";
 import { BsCopy } from "react-icons/bs";
 import SocialShare from "../SocialShare";
 import toast from "react-hot-toast";

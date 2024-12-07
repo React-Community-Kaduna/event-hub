@@ -1,8 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { IoIosArrowForward} from "react-icons/io";
 import { IoCalendarOutline} from "react-icons/io5";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import { FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import useGlobalContext from "../../stateManagement/use-global-context";

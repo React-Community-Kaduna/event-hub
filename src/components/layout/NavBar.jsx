@@ -1,26 +1,21 @@
 import { useRef } from "react";
-import { Select, MenuItem, TextField, InputAdornment, Box } from "@mui/material";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { AppButton } from "../../components/button/AppButton";
-import styles from './Layout.module.css'
 import { appRoutes } from "../../config/routeMgt/RoutePaths";
 import logo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logUserOut } from "../../services/Auth/user-context";
+import avatar_placeholder from "../../assets/avatar.png"
 
 const NavBar = () => {
   const {token,user} = useSelector((state) => state?.user);
-  const {pathname} = useLocation();
   const navigate = useNavigate()
   const searchRef = useRef("");
   const dispatch = useDispatch()
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // if(pathname.startsWith() !== "/event"){
-    //   navigate(`/event/${event}`)
-    // }
     navigate(`/event/${searchRef?.current?.value}`)
   };
 
@@ -40,15 +35,6 @@ const NavBar = () => {
           {/* category search */}
           <form className="hidden sm:block" onSubmit={(e)=>handleSearch(e)}>
             <Box display="flex" alignItems="center">
-              {/* <InputLabel id="demo-simple-select-helper-label">Category</InputLabel> */}
-              {/* <Select IconComponent={() => null} labelId="demo-simple-select-helper-label" id="demo-simple-select-helper" value={selectedValue} onChange={handleSelectChange} size="small" variant="outlined" displayEmpty sx={{ mr: 0, bgcolor: "var(--app-blue)", borderTopLeftRadius: 8, borderBottomLeftRadius: 8, color: "white" }} label="Category" name={"Category"} className={styles.navCategorySelect}>
-                <MenuItem value="" disabled>
-                  Category
-                </MenuItem>
-                <MenuItem value="option1">Option 1</MenuItem>
-                <MenuItem value="option2">Option 2</MenuItem>
-                <MenuItem value="option3">Option 3</MenuItem>
-              </Select> */}
               <input
               ref={searchRef}
                 style={{borderBottom:"1px solid #3557c2",paddingLeft:"10px"}}
@@ -56,14 +42,6 @@ const NavBar = () => {
                 placeholder="Search Events Here"
                 className="outline-none border-none focus:border-[#3357c2] border w-full pl-2 py-2 caret-[#3357c2] focus:outline-none"
                 size="small"
-                // InputProps={{
-                //   endAdornment: (
-                //     <InputAdornment position="end">
-                //       <SearchIcon htmlColor="var(--app-blue)" className="cursor-pointer" />
-                //     </InputAdornment>
-                //   ),
-                //   disableUnderline: true,
-                // }}
               />
                <SearchIcon htmlColor="var(--app-blue)" className="cursor-pointer" />
             </Box>
@@ -75,7 +53,8 @@ const NavBar = () => {
             <div className="flex items-center justify-between gap-4">
             <button className="border text-[#3557c2] border-[#3557c2] capitalize py-1 px-2 rounded-md hover:text-white hover:bg-[#3557c2] hover:border-transparent" onClick={handleLogOut}>sign out</button>
             <Link to="/profile" className="profileImage bg-gray-300 border w-[50px] h-[50px] rounded-full">
-                <img src={user?.avatar} alt="Profile Image" className="w-full h-full rounded-full" />
+                {user?.avartar && <img src={user?.avatar} alt="user avatar" className="w-full h-full rounded-full object-cover" />}
+                {!user?.avartar && <img src={avatar_placeholder} alt="user avatar" className="w-full h-full rounded-full object-cover" />}
             </Link>
             </div>
           ) : (

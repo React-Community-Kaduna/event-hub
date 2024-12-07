@@ -21,17 +21,6 @@ function CountDown({ duration }) {
 
         return (
             <>
-                {/* <div
-                    className="w-[60%] m-auto grid grid-cols-4 justify-between text-center">
-                    <div className="col-span-[1 / 1] font-bold text-[20px] bg-gray-300 p-2">{days}</div>
-                    <div className="col-span-[2 / 2] font-bold text-[20px] bg-gray-300 p-2">{hours}</div>
-                    <div className="col-span-[3 / 3] font-bold text-[20px] bg-gray-300 p-2">{minutes}</div>
-                    <div className="col-span-[4 / 4] font-bold text-[20px] bg-gray-300 p-2">{seconds}</div>
-                    <div className="bg-gray-300 p-2">Days</div>
-                    <div className="bg-gray-300 p-2">Hours</div>
-                    <div className="bg-gray-300 p-2">Minutes</div>
-                    <div className="bg-gray-300 p-2">Seconds</div>
-                </div> */}
                 <div className="flex flex-row gap-4 justify-center items-center text-center">
                     <div  className="bg-gray-100 p-3bg-gray-100 p-3 shadow-md">
                         <div className="font-bold text-[20px]">{days}</div>
